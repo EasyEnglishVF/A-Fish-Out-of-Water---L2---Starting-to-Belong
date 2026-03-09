@@ -1397,7 +1397,7 @@
         <button class="btn btn-primary" onclick="downloadRecording()">⬇️ Download recording</button>
       </div>
       <div style="margin-top:14px;background:rgba(74,103,65,0.07);border-radius:10px;padding:12px 16px;font-size:0.85rem;color:var(--charcoal);">
-        📧 Once downloaded, send your recording to your teacher at <strong>easyenglishvf@gmail.com</strong>
+        📧 Once downloaded, send your recording to your teacher at <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7114100208141f161d180219071731161c10181d5f121e1c">[email&#160;protected]</a></strong>
       </div>
     </div>
   </div>
@@ -1534,9 +1534,8 @@
       ✅ Answers copied! Now open your email and paste (Ctrl+V or Cmd+V).
     </div>
 
-    <a id="emailLink" href="mailto:easyenglishvf@gmail.com?subject=Lesson 2 - Starting to Belong - My Answers&body=Hi Veronica,%0D%0A%0D%0APlease find my written answers for Lesson 2 below:%0D%0A%0D%0A[Paste your answers here]%0D%0A%0D%0AI have also attached my speaking recording.%0D%0A%0D%0ABest wishes" 
-       class="btn btn-secondary" style="width:100%;justify-content:center;border-radius:12px;padding:14px;font-size:0.95rem;text-decoration:none;display:flex;">
-      ✉️ Open email to easyenglishvf@gmail.com
+    <a id="emailLink" href="#" onclick="openEmail(event)" class="btn btn-secondary" style="width:100%;justify-content:center;border-radius:12px;padding:14px;font-size:0.95rem;text-decoration:none;display:flex;">
+      ✉️ Open email to <span class="__cf_email__" data-cfemail="6a0f0b19130f040d060319021c0c2a0d070b030644090507">[email&#160;protected]</span>
     </a>
     <p style="font-size:0.78rem;color:var(--mid-gray);text-align:center;margin-top:10px;">Don't forget to attach your downloaded recording too! 🎙️</p>
   </div>
@@ -1550,7 +1549,7 @@
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── NAVIGATION ──────────────────────────────────────────────────────────────
 const TOTAL = 11; // 0–10
 const sectionLabels = ['Cover','Warm Up','Reading','Discussion','Comparatives','Present Perfect','PP Practice','Listening','Speaking','Extra Task','Summary'];
@@ -1843,18 +1842,12 @@ function compileAnswers() {
   });
 }
 
-// ── HOMEWORK WORD CHECK ──────────────────────────────────────────────────────
-const hwWords = ['subside', 'forge', 'broaden', 'thrive', 'cope', 'longing'];
-function checkHW() {
-  const text = document.querySelector('#sec9 .sb-textarea').value.toLowerCase();
-  const found = hwWords.filter(w => text.includes(w));
-  const missing = hwWords.filter(w => !text.includes(w));
-  const div = document.getElementById('hwWordCheck');
-  let msg = '';
-  if (found.length) msg += `✅ Found: <strong>${found.join(', ')}</strong>. `;
-  if (missing.length) msg += `📝 Not yet used: ${missing.join(', ')}.`;
-  div.innerHTML = msg || 'Start writing to check your vocabulary!';
+// ── OPEN EMAIL ───────────────────────────────────────────────────────────────
+function openEmail(e) {
+  e.preventDefault();
+  const subject = encodeURIComponent('Lesson 2 - Starting to Belong - My Answers');
+  const body = encodeURIComponent('Hi Veronica,\n\nPlease find my written answers for Lesson 2 below:\n\n[Paste your copied answers here]\n\nI have also attached my speaking recording.\n\nBest wishes');
+  window.location.href = 'mailto:easyenglishvf@gmail.com?subject=' + subject + '&body=' + body;
 }
-</script>
-</body>
-</html>
+
+// ── HOMEWORK WORD CHECK ─────────────────────────────────────────────────────�
