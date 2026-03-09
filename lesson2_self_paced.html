@@ -1853,3 +1853,16 @@ function openEmail(e) {
 }
 
 // ── HOMEWORK WORD CHECK ─────────────────────────────────────────────────────�
+// ── HOMEWORK WORD CHECK ──────────────────────────────────────────────────────
+const targetWords = ['subside','forge','broaden','thrive','cope','longing','since','already','just','yet','ever','never','recently','for','comparative','superlative'];
+
+function checkHomeworkWords() {
+  const text = document.getElementById('homeworkTextarea') ? document.getElementById('homeworkTextarea').value.toLowerCase() : '';
+  const found = targetWords.filter(w => text.includes(w));
+  const el = document.getElementById('homeworkWordCount');
+  if (el) el.textContent = found.length + ' / ' + targetWords.length + ' target words used: ' + (found.length ? found.join(', ') : 'none yet');
+}
+
+</script>
+</body>
+</html>
