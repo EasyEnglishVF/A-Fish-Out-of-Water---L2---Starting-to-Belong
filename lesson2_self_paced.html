@@ -1394,6 +1394,10 @@
       <div style="margin-top:16px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
         <button class="btn btn-sand" onclick="retryRecording()">🔄 Record again</button>
         <button class="btn btn-secondary" id="saveBtn" onclick="saveRecording()">💾 Save this take</button>
+        <button class="btn btn-primary" onclick="downloadRecording()">⬇️ Download recording</button>
+      </div>
+      <div style="margin-top:14px;background:rgba(74,103,65,0.07);border-radius:10px;padding:12px 16px;font-size:0.85rem;color:var(--charcoal);">
+        📧 Once downloaded, send your recording to your teacher at <strong>easyenglishvf@gmail.com</strong>
       </div>
     </div>
   </div>
@@ -1516,6 +1520,25 @@
     <p style="font-size:0.95rem;line-height:1.8;">✍️ &nbsp;Try the <strong>Extra Task</strong> — write your paragraph about your English learning journey.<br>
     🔊 &nbsp;Listen back to your recording — what would you say differently next time?<br>
     📚 &nbsp;Review today's vocabulary — can you use all 6 words naturally in conversation?</p>
+  </div>
+
+  <!-- SEND WORK TO TEACHER -->
+  <div style="background:var(--warm-white);border:1.5px solid var(--sand-light);border-radius:16px;padding:28px;margin-top:32px;">
+    <h2 style="margin-bottom:6px;font-size:1.2rem;">📬 Send your work to your teacher</h2>
+    <p style="font-size:0.88rem;color:var(--mid-gray);margin-bottom:20px;">Click the button below to copy all your written answers, then paste them into an email to your teacher.</p>
+    
+    <button class="btn btn-primary" onclick="compileAnswers()" style="width:100%;justify-content:center;border-radius:12px;padding:14px;font-size:1rem;margin-bottom:12px;">
+      📋 Copy all my written answers
+    </button>
+    <div id="copyFeedback" style="display:none;background:var(--success-light);color:var(--success);border-radius:10px;padding:10px 16px;font-size:0.88rem;text-align:center;margin-bottom:16px;">
+      ✅ Answers copied! Now open your email and paste (Ctrl+V or Cmd+V).
+    </div>
+
+    <a id="emailLink" href="mailto:easyenglishvf@gmail.com?subject=Lesson 2 - Starting to Belong - My Answers&body=Hi Veronica,%0D%0A%0D%0APlease find my written answers for Lesson 2 below:%0D%0A%0D%0A[Paste your answers here]%0D%0A%0D%0AI have also attached my speaking recording.%0D%0A%0D%0ABest wishes" 
+       class="btn btn-secondary" style="width:100%;justify-content:center;border-radius:12px;padding:14px;font-size:0.95rem;text-decoration:none;display:flex;">
+      ✉️ Open email to easyenglishvf@gmail.com
+    </a>
+    <p style="font-size:0.78rem;color:var(--mid-gray);text-align:center;margin-top:10px;">Don't forget to attach your downloaded recording too! 🎙️</p>
   </div>
 
   <div style="text-align:center;margin-top:40px;padding-top:32px;border-top:1px solid var(--sand-light);">
@@ -1729,6 +1752,95 @@ function saveRecording() {
     <audio controls src="${audio.src}" style="flex:1;max-width:240px;"></audio>`;
   list.appendChild(li);
   document.getElementById('savedRecordings').style.display = 'block';
+}
+
+// ── DOWNLOAD RECORDING ───────────────────────────────────────────────────────
+function downloadRecording() {
+  const audio = document.getElementById('audioPlayback');
+  if (!audio.src) return;
+  const a = document.createElement('a');
+  a.href = audio.src;
+  a.download = 'lesson2_speaking_task.webm';
+  a.click();
+}
+
+// ── COMPILE ALL ANSWERS ───────────────────────────────────────────────────────
+function compileAnswers() {
+  const sections = [
+    { label: 'WARM UP', ids: ['sec1'] },
+    { label: 'VOCABULARY IN USE', ids: ['sec3'] },
+    { label: 'COMPARATIVES — Then vs Now', ids: ['sec4'] },
+    { label: 'PRESENT PERFECT — Write about yourself', ids: ['sec6'] },
+    { label: 'LISTENING — Think & Discuss', ids: ['sec7'] },
+    { label: 'EXTRA TASK — Writing', ids: ['sec9'] },
+  ];
+
+  let output = 'LESSON 2 — Starting to Belong\nMy Written Answers\n';
+  output += '='.repeat(40) + '\n\n';
+
+  // Warm up
+  const warmupTextareas = document.querySelectorAll('#sec1 textarea');
+  const warmupLabels = ['Change', 'Belonging', 'First Time'];
+  output += '── WARM UP ──\n';
+  warmupTextareas.forEach((ta, i) => {
+    output += `${warmupLabels[i]}: ${ta.value.trim() || '(no answer)'}\n`;
+  });
+  output += '\n';
+
+  // Discussion
+  output += '── VOCABULARY IN USE ──\n';
+  const discCards = document.querySelectorAll('#sec3 .prompt-card');
+  discCards.forEach(card => {
+    const word = card.querySelector('.prompt-word')?.textContent || '';
+    const ans = card.querySelector('textarea')?.value.trim() || '(no answer)';
+    output += `${word}: ${ans}\n`;
+  });
+  output += '\n';
+
+  // Comparatives free writing
+  output += '── COMPARATIVES — Then vs Now ──\n';
+  const compTAs = document.querySelectorAll('#sec4 .sb-textarea');
+  const compLabels = ['When I first…', 'Now / Recently…', 'This is the most…'];
+  compTAs.forEach((ta, i) => {
+    output += `${compLabels[i]}: ${ta.value.trim() || '(no answer)'}\n`;
+  });
+  output += '\n';
+
+  // PP free writing
+  output += '── PRESENT PERFECT — About myself ──\n';
+  const ppTAs = document.querySelectorAll('#sec6 .sb-textarea');
+  const ppLabels = ['Change sentence', 'Experience sentence'];
+  ppTAs.forEach((ta, i) => {
+    output += `${ppLabels[i]}: ${ta.value.trim() || '(no answer)'}\n`;
+  });
+  output += '\n';
+
+  // Listening
+  output += '── LISTENING — Think & Discuss ──\n';
+  const listCards = document.querySelectorAll('#sec7 .prompt-card');
+  listCards.forEach(card => {
+    const word = card.querySelector('.prompt-word')?.textContent || '';
+    const ans = card.querySelector('textarea')?.value.trim() || '(no answer)';
+    output += `${word}: ${ans}\n`;
+  });
+  output += '\n';
+
+  // Extra task
+  output += '── EXTRA TASK — Writing ──\n';
+  const hwTA = document.querySelector('#sec9 .sb-textarea');
+  output += (hwTA?.value.trim() || '(no answer)') + '\n';
+
+  // Copy to clipboard
+  navigator.clipboard.writeText(output).then(() => {
+    const fb = document.getElementById('copyFeedback');
+    fb.style.display = 'block';
+    // Also pre-fill email link body
+    const encoded = encodeURIComponent('Hi Veronica,\n\nPlease find my written answers for Lesson 2 below:\n\n' + output + '\n\nI have also attached my speaking recording.\n\nBest wishes');
+    document.getElementById('emailLink').href = `mailto:easyenglishvf@gmail.com?subject=Lesson 2 - Starting to Belong - My Answers&body=${encoded}`;
+    setTimeout(() => fb.style.display = 'none', 5000);
+  }).catch(() => {
+    alert('Could not copy automatically. Please select all text and copy manually.');
+  });
 }
 
 // ── HOMEWORK WORD CHECK ──────────────────────────────────────────────────────
